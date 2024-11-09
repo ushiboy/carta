@@ -23,6 +23,10 @@ export default defineConfig({
         "src/presentations/App.tsx",
         "src/**/*.stories.ts",
       ],
+      reporter: ["text", "json-summary", "json", "html"],
+      reportOnFailure: true,
+      clean: true,
+      all: true,
     },
   },
 });

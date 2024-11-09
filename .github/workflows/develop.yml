@@ -9,20 +9,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      pull-requests: write
+
     strategy:
       matrix:
         node-version: [20]
 
     steps:
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+      - name: Install pnpm
+        run: |
+          corepack enable
+          pnpm --version
       - name: Install dependencies
         run: pnpm install
       - name: Lint
