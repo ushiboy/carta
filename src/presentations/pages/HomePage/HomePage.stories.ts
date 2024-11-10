@@ -17,4 +17,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const デフォルト表示: Story = {};
+export const デフォルト表示: Story = {
+  args: {
+    games: [],
+  },
+};

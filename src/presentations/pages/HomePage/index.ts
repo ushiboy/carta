@@ -1,1 +1,2 @@
-export { HomePage } from "./HomePage";
+import { HomePageContainer } from "./HomePageContainer";
+export const HomePage = HomePageContainer;
