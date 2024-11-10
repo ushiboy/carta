@@ -84,6 +84,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
+      chromatic:
+        specifier: ^11.18.0
+        version: 11.18.0
       eslint:
         specifier: ^9.14.0
         version: 9.14.0(jiti@1.21.6)
@@ -1380,8 +1383,8 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chromatic@11.16.5:
-    resolution: {integrity: sha512-wUEKXyu3GYmUg6Jq13uyRE9iC8ph5gbfDHdyHH0vQathkGQrcjHHdoxI/GXKIjU6d+xupLon8sxRV9NuZKTWbA==}
+  chromatic@11.18.0:
+    resolution: {integrity: sha512-3o9Frn1oIS1hFLsJxVH9yVJ1O7+TCYoyL7OZzUorL/DCYduhXr5LDSBfpUsp7EdCPb64ufkbyFzSRNbt/xy9kg==}
     hasBin: true
     peerDependencies:
       '@chromatic-com/cypress': ^0.*.* || ^1.0.0
@@ -3162,7 +3165,7 @@ snapshots:
 
   '@chromatic-com/storybook@3.2.2(react@18.3.1)(storybook@8.4.2(prettier@3.3.3))':
     dependencies:
-      chromatic: 11.16.5
+      chromatic: 11.18.0
       filesize: 10.1.6
       jsonfile: 6.1.0
       react-confetti: 6.1.0(react@18.3.1)
@@ -4300,7 +4303,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chromatic@11.16.5: {}
+  chromatic@11.18.0: {}
 
   clsx@2.1.1: {}
 

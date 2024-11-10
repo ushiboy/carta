@@ -35,6 +35,11 @@ jobs:
         run: pnpm lint
       - name: Unit Test
         run: pnpm test:coverage
-      - name: 'Report Coverage'
-        if: always() 
+      - name: Report Coverage
         uses:  davelosert/vitest-coverage-report-action@v2
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
+          exitZeroOnChanges: true
