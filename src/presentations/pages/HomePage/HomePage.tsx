@@ -1,16 +1,24 @@
+import { Link } from "react-router-dom";
+
 import { Game } from "@/domains/models/carta";
+import { Loading } from "@/presentations/shared/Loading";
 
 type Props = {
   games: Game[];
+  isLoading: boolean;
 };
 
-export function HomePage({ games }: Props) {
+export function HomePage({ games, isLoading }: Props) {
   return (
     <div data-testid="homePage">
-      <h1>Hello world.</h1>
-      {games.map((g) => (
-        <p key={g.id}>{g.title}</p>
-      ))}
+      <Loading show={isLoading} />
+      <ul>
+        {games.map((g) => (
+          <li key={g.id}>
+            <Link to={`/games/${g.id}`}>{g.title}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

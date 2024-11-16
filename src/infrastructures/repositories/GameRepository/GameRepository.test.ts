@@ -60,7 +60,7 @@ describe("GameRepository", () => {
         expect(await repository.getGameDetail(1)).toEqual({
           id: 1,
           title: "test 1",
-          pairCards: [{ yomi: "yomi1", tori: "tori1" }],
+          pairCards: [{ id: 1, yomi: "yomi1", tori: "tori1" }],
         });
       });
     });
