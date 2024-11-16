@@ -1,5 +1,7 @@
 import { withRouter } from "storybook-addon-remix-react-router";
 
+import { Game } from "@/domains/models/carta";
+
 import { HomePage } from "./HomePage";
 
 import type { Meta, StoryObj } from "@storybook/react";
@@ -17,8 +19,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const game: Game = {
+  id: 1,
+  title: "Hello world.",
+};
+
 export const デフォルト表示: Story = {
   args: {
-    games: [],
+    games: [game],
+    isLoading: false,
   },
 };

@@ -36,6 +36,14 @@ describe("AppRoutes", () => {
     });
   });
 
+  describe(`パスが"/games/:id"の場合`, () => {
+    it("PlayGameページが表示される", () => {
+      expect(
+        run({ path: "/games/123" }).getByTestId("playGamePage"),
+      ).toBeInTheDocument();
+    });
+  });
+
   describe(`定義外のパスの場合`, () => {
     it("NotFoundページが表示される", () => {
       expect(

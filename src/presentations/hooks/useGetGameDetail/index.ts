@@ -1,0 +1,1 @@
+export { useGetGameDetail } from "./useGetGameDetail";

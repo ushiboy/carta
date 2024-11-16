@@ -33,7 +33,11 @@ export class GameRepository implements GameRepositoryInterface {
     return {
       id: game.id!,
       title: game.title,
-      pairCards: pairCards.map(({ yomi, tori }) => ({ yomi, tori })),
+      pairCards: pairCards.map(({ id, yomi, tori }) => ({
+        id: id!,
+        yomi,
+        tori,
+      })),
     };
   }
 }
