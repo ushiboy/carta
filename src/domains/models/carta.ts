@@ -1,3 +1,13 @@
+export type GameDraft = {
+  title: string;
+  pairDrafts: PairDraft[];
+};
+
+export type PairDraft = {
+  yomi: string;
+  tori: string;
+};
+
 export type Game = {
   id: number;
   title: string;
