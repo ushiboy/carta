@@ -1,10 +1,12 @@
-import { Game, GameDetail } from "@/domains/models/carta";
+import { GameDraft, Game, GameDetail } from "@/domains/models/carta";
 import { CartaDatabase } from "@/infrastructures/drivers/dexieDriver";
 
 export interface GameRepositoryInterface {
   getAllGames(): Promise<Game[]>;
 
   getGameDetail(gameId: number): Promise<GameDetail>;
+
+  createGame(draft: GameDraft): Promise<GameDetail>;
 }
 
 export class GameRepository implements GameRepositoryInterface {
@@ -39,5 +41,25 @@ export class GameRepository implements GameRepositoryInterface {
         tori,
       })),
     };
+  }
+
+  async createGame(draft: GameDraft): Promise<GameDetail> {
+    const gameId = await this.db.games.add({
+      title: draft.title,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+    });
+
+    await this.db.pairCards.bulkAdd(
+      draft.pairDrafts.map(({ yomi, tori }) => ({
+        gameId,
+        yomi,
+        tori,
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+      })),
+    );
+
+    return this.getGameDetail(gameId);
   }
 }
