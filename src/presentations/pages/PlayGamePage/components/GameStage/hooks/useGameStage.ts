@@ -3,9 +3,11 @@ import { useNavigate } from "react-router";
 
 import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import { ScoreInfo, ToriFudaInfo } from "@/domains/models/carta";
+import { useAdapter } from "@/presentations/contexts/AdapterContext";
 
 export function useGameStage(engine: CartaEngine) {
   const navigate = useNavigate();
+  const { textToSpeechAdapter } = useAdapter();
   const [toriFudas, setToriFudas] = useState<ToriFudaInfo[]>([]);
   const [yomiFuda, setYomiFuda] = useState("");
   const [isGameOver, setGameOver] = useState(false);
@@ -19,6 +21,8 @@ export function useGameStage(engine: CartaEngine) {
   useEffect(() => {
     engine.startGame();
     engine.onNextFuda(({ toriFudas, yomiFuda, isGameOver }) => {
+      textToSpeechAdapter.speech(yomiFuda);
+
       setToriFudas(toriFudas);
       setYomiFuda(yomiFuda);
       setGameOver(isGameOver);
@@ -28,8 +32,9 @@ export function useGameStage(engine: CartaEngine) {
     });
     return () => {
       engine.dispose();
+      textToSpeechAdapter.cancel();
     };
-  }, [engine]);
+  }, [engine, textToSpeechAdapter]);
 
   const handleFudaClick = useCallback(
     (fuda: ToriFudaInfo) => engine.tori(fuda),
