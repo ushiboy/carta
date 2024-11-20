@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
-import { ScoreInfo, ToriFudaInfo } from "@/domains/models/carta";
+import { Game, ScoreInfo, ToriFudaInfo } from "@/domains/models/carta";
 import { useAdapter } from "@/presentations/contexts/AdapterContext";
+import { useSaveScore } from "@/presentations/hooks/useSaveScore";
 
-export function useGameStage(engine: CartaEngine) {
+export function useGameStage(engine: CartaEngine, game: Game) {
   const navigate = useNavigate();
   const { textToSpeechAdapter } = useAdapter();
   const [toriFudas, setToriFudas] = useState<ToriFudaInfo[]>([]);
@@ -17,6 +18,7 @@ export function useGameStage(engine: CartaEngine) {
     total: 0,
     rate: 0,
   });
+  const { doSave } = useSaveScore();
 
   useEffect(() => {
     engine.startGame();
@@ -27,14 +29,19 @@ export function useGameStage(engine: CartaEngine) {
       setYomiFuda(yomiFuda);
       setGameOver(isGameOver);
       if (isGameOver) {
-        setScoreInfo(engine.getScore());
+        const score = engine.getScore();
+        setScoreInfo(score);
+        doSave({
+          game,
+          score,
+        });
       }
     });
     return () => {
       engine.dispose();
       textToSpeechAdapter.cancel();
     };
-  }, [engine, textToSpeechAdapter]);
+  }, [engine, game, textToSpeechAdapter, doSave]);
 
   const handleFudaClick = useCallback(
     (fuda: ToriFudaInfo) => engine.tori(fuda),

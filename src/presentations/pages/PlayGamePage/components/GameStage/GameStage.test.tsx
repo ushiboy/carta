@@ -4,7 +4,7 @@ import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import { GameDetail, PairCard } from "@/domains/models/carta";
 import { MockTextToSpeechAdapter } from "@/infrastructures/adapters/TextToSpeechAdapter/MockTextToSpeechAdapter";
 import { AdapterContextProvider } from "@/presentations/contexts/AdapterContext";
-import { Router } from "@/tests";
+import { RepositoryContextHelper, Router } from "@/tests";
 
 import { GameStage } from "./GameStage";
 
@@ -27,11 +27,13 @@ describe("GameStage", () => {
   const run = () =>
     render(<GameStage game={detail} engine={engine} />, {
       wrapper: ({ children }) => (
-        <AdapterContextProvider
-          textToSpeechAdapter={new MockTextToSpeechAdapter()}
-        >
-          <Router initPath="">{children}</Router>
-        </AdapterContextProvider>
+        <RepositoryContextHelper>
+          <AdapterContextProvider
+            textToSpeechAdapter={new MockTextToSpeechAdapter()}
+          >
+            <Router initPath="">{children}</Router>
+          </AdapterContextProvider>
+        </RepositoryContextHelper>
       ),
     });
 
