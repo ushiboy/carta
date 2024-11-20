@@ -1,0 +1,1 @@
+export { useScoreLogPage } from "./useScoreLogPage";

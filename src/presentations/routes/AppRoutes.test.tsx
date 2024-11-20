@@ -2,9 +2,8 @@ import { render, waitFor } from "@testing-library/react";
 
 import { GameRepositoryInterface } from "@/infrastructures/repositories/GameRepository";
 import { MockGameRepository } from "@/infrastructures/repositories/GameRepository/MockGameRepository";
-import { Router } from "@/tests";
-
-import { RepositoryContextProvider } from "../contexts/RepositoryContext";
+import { ScoreRepositoryInterface } from "@/infrastructures/repositories/ScoreRepository/ScoreRepository";
+import { RepositoryContextHelper, Router } from "@/tests";
 
 import { AppRoutes } from "./AppRoutes";
 
@@ -12,14 +11,16 @@ describe("AppRoutes", () => {
   const run = (props: {
     path: string;
     gameRepository?: GameRepositoryInterface;
+    scoreRepository?: ScoreRepositoryInterface;
   }) =>
     render(<AppRoutes />, {
       wrapper: ({ children }) => (
-        <RepositoryContextProvider
-          gameRepository={props.gameRepository || new MockGameRepository()}
+        <RepositoryContextHelper
+          gameRepository={props.gameRepository}
+          scoreRepository={props.scoreRepository}
         >
           <Router initPath={props.path}>{children}</Router>
-        </RepositoryContextProvider>
+        </RepositoryContextHelper>
       ),
     });
 

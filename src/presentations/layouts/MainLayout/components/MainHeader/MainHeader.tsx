@@ -8,7 +8,10 @@ import { MobileMenuButton } from "./components/MobileMenuButton";
 import { Navigation } from "./components/Navigation";
 
 export function MainHeader() {
-  const navigation = [{ name: "Home", path: "/", current: true }];
+  const navigation = [
+    { name: "Home", path: "/", current: true },
+    { name: "Score", path: "/scores", current: false },
+  ];
   const configNavigation = [{ name: "Manage Data", path: "/manage" }];
 
   return (
