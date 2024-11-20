@@ -19,7 +19,7 @@ export function GameStage({ game, engine }: Props) {
     handleFudaClick,
     handleFinish,
     handleRetry,
-  } = useGameStage(engine);
+  } = useGameStage(engine, game);
   return (
     <div data-testid="gameStage">
       <h1 data-testid="title">{game.title}</h1>

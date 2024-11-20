@@ -16,15 +16,26 @@ export interface PairCardTable {
   modifiedAt: Date;
 }
 
+export interface ScoreLogTable {
+  id?: number;
+  gameId: number;
+  title: string;
+  corrected: number;
+  total: number;
+  createdAt: Date;
+}
+
 export class CartaDatabase extends Dexie {
   games!: Table<GameTable, number>;
   pairCards!: Table<PairCardTable, number>;
+  scoreLogs!: Table<ScoreLogTable, number>;
 
   constructor() {
     super("CartaDatabase");
-    this.version(1).stores({
+    this.version(2).stores({
       games: "++id, title, createdAt, modifiedAt",
       pairCards: "++id, gameId, yomi, tori, createdAt, modifiedAt",
+      scoreLogs: "++id, gameId, title, corrected, total, createdAt",
     });
   }
 }

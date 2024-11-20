@@ -65,3 +65,14 @@ export type ScoreInfo = {
   /** トータル */
   total: number;
 };
+
+export type ScoreLog = {
+  id: number;
+  gameId: number;
+  title: string;
+  /** 正答数 */
+  corrected: number;
+  /** トータル */
+  total: number;
+  createdAt: Date;
+};
