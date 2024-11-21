@@ -22,6 +22,12 @@ export interface ScoreLogTable {
   title: string;
   corrected: number;
   total: number;
+  results?: {
+    id: number;
+    yomi: string;
+    tori: string;
+    corrected: boolean;
+  }[];
   createdAt: Date;
 }
 
@@ -32,10 +38,10 @@ export class CartaDatabase extends Dexie {
 
   constructor() {
     super("CartaDatabase");
-    this.version(2).stores({
+    this.version(3).stores({
       games: "++id, title, createdAt, modifiedAt",
       pairCards: "++id, gameId, yomi, tori, createdAt, modifiedAt",
-      scoreLogs: "++id, gameId, title, corrected, total, createdAt",
+      scoreLogs: "++id, gameId, title, corrected, total, results, createdAt",
     });
   }
 }

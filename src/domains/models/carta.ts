@@ -76,3 +76,10 @@ export type ScoreLog = {
   total: number;
   createdAt: Date;
 };
+
+export type PlayResult = {
+  id: number;
+  yomi: string;
+  tori: string;
+  corrected: boolean;
+};

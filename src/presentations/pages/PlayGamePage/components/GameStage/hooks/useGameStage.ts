@@ -2,11 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
-import { Game, ScoreInfo, ToriFudaInfo } from "@/domains/models/carta";
+import {
+  GameDetail,
+  ScoreInfo,
+  ToriFudaInfo,
+  ToriFudaStatus,
+} from "@/domains/models/carta";
 import { useAdapter } from "@/presentations/contexts/AdapterContext";
 import { useSaveScore } from "@/presentations/hooks/useSaveScore";
 
-export function useGameStage(engine: CartaEngine, game: Game) {
+export function useGameStage(engine: CartaEngine, game: GameDetail) {
   const navigate = useNavigate();
   const { textToSpeechAdapter } = useAdapter();
   const [toriFudas, setToriFudas] = useState<ToriFudaInfo[]>([]);
@@ -31,9 +36,20 @@ export function useGameStage(engine: CartaEngine, game: Game) {
       if (isGameOver) {
         const score = engine.getScore();
         setScoreInfo(score);
+        /**
+         * FIXME
+         */
         doSave({
           game,
           score,
+          playResults: game.pairCards.map(({ id, yomi, tori }) => ({
+            id,
+            yomi,
+            tori,
+            corrected:
+              toriFudas.find((t) => t.id === id)?.status ===
+              ToriFudaStatus.Corrected,
+          })),
         });
       }
     });
