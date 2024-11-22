@@ -6,13 +6,10 @@ import { ConfigMenu } from "./components/ConfigMenu";
 import { MobileMainMenu } from "./components/MobileMainMenu";
 import { MobileMenuButton } from "./components/MobileMenuButton";
 import { Navigation } from "./components/Navigation";
+import { useMainHeader } from "./hooks";
 
 export function MainHeader() {
-  const navigation = [
-    { name: "Home", path: "/", current: true },
-    { name: "Score", path: "/scores", current: false },
-  ];
-  const configNavigation = [{ name: "Manage Data", path: "/manage" }];
+  const { navigation, configNavigation } = useMainHeader();
 
   return (
     <Disclosure data-testid="mainHeader" as="nav" className="bg-blue-500">
