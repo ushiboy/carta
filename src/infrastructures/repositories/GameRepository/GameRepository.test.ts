@@ -73,4 +73,16 @@ describe("GameRepository", () => {
       });
     });
   });
+
+  describe("createGame", () => {
+    it("ゲームを新規登録して登録結果を返す", async () => {
+      const result = await repository.createGame({
+        title: "test 1",
+        pairDrafts: [{ yomi: "yomi1", tori: "tori1" }],
+      });
+      expect(result.title).toBe("test 1");
+      expect(result.pairCards[0].yomi).toBe("yomi1");
+      expect(result.pairCards[0].tori).toBe("tori1");
+    });
+  });
 });
