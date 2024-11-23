@@ -1,8 +1,17 @@
 import { render, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
-import { GameDetail, PairCard } from "@/domains/models/carta";
+import {
+  Game,
+  GameDetail,
+  PairCard,
+  PlayResult,
+  ScoreInfo,
+  ScoreLog,
+} from "@/domains/models/carta";
 import { MockTextToSpeechAdapter } from "@/infrastructures/adapters/TextToSpeechAdapter/MockTextToSpeechAdapter";
+import { MockScoreRepository } from "@/infrastructures/repositories/ScoreRepository/MockScoreRepository";
 import { AdapterContextProvider } from "@/presentations/contexts/AdapterContext";
 import { RepositoryContextHelper, Router } from "@/tests";
 
@@ -24,10 +33,27 @@ describe("GameStage", () => {
 
   const engine = new CartaEngine([pairCard1]);
 
+  class Mock extends MockScoreRepository {
+    async saveScore(
+      game: Game,
+      _score: ScoreInfo,
+      _playResults: PlayResult[],
+    ): Promise<ScoreLog> {
+      return {
+        id: 1,
+        gameId: game.id,
+        title: game.title,
+        corrected: _score.corrected,
+        total: _score.total,
+        createdAt: new Date(),
+      };
+    }
+  }
+
   const run = () =>
     render(<GameStage game={detail} engine={engine} />, {
       wrapper: ({ children }) => (
-        <RepositoryContextHelper>
+        <RepositoryContextHelper scoreRepository={new Mock()}>
           <AdapterContextProvider
             textToSpeechAdapter={new MockTextToSpeechAdapter()}
           >
@@ -52,5 +78,17 @@ describe("GameStage", () => {
   it("取り札が表示される", async () => {
     const r = run();
     await waitFor(() => expect(r.getByTestId("toriFuda")).toBeInTheDocument());
+  });
+
+  it("ゲーム終了するとゲームオーバーダイアログが表示される", async () => {
+    const r = run();
+    await waitFor(() =>
+      expect(r.getByTestId("toriFuda")).toHaveTextContent(pairCard1.tori),
+    );
+    await userEvent.click(r.getByText(pairCard1.tori));
+
+    await waitFor(() =>
+      expect(r.getByTestId("gameOverDialog")).toBeInTheDocument(),
+    );
   });
 });

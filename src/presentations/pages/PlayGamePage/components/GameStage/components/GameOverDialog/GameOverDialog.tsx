@@ -16,7 +16,12 @@ type Props = {
 
 export function GameOverDialog({ open, scoreInfo, onRetry, onFinish }: Props) {
   return (
-    <Dialog open={open} onClose={onFinish} className="relative z-10">
+    <Dialog
+      data-testid="gameOverDialog"
+      open={open}
+      onClose={onFinish}
+      className="relative z-10"
+    >
       <DialogBackdrop
         transition
         className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
