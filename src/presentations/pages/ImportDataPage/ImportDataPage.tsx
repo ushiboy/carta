@@ -1,23 +1,32 @@
+import { useId } from "react";
+
 import { Loading } from "@/presentations/shared/Loading";
 
-import { useImportDataPage } from "./hooks/useImportDataPage";
+type Props = {
+  title: string;
+  fileName: string;
+  enableImport: boolean;
+  isLoading: boolean;
+  onTitleChange: (v: string) => void;
+  onFileChange: (file: File) => void;
+  onImport: () => void;
+};
 
-export function ImportDataPage() {
-  const {
-    title,
-    fileName,
-    enableImport,
-    isLoading,
-    setTitle,
-    handleFileChange,
-    handleImport,
-  } = useImportDataPage();
-
+export function ImportDataPage({
+  title,
+  fileName,
+  enableImport,
+  isLoading,
+  onTitleChange,
+  onFileChange,
+  onImport,
+}: Props) {
+  const id = useId();
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        handleImport();
+        onImport();
       }}
     >
       <div className="flex">
@@ -26,41 +35,41 @@ export function ImportDataPage() {
           <div className="mb-4">
             <label
               className="mb-2 block text-sm font-medium text-gray-700"
-              htmlFor="title"
+              htmlFor={`${id}-title`}
             >
               タイトル
             </label>
             <input
               type="text"
-              id="title"
+              id={`${id}-title`}
+              data-testid="inputTitle"
               className="w-full rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               placeholder="Enter a title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => onTitleChange(e.target.value)}
             />
           </div>
 
           <div className="mb-4">
             <label
               className="mb-2 block text-sm font-medium text-gray-700"
-              htmlFor="csvFile"
+              htmlFor={`${id}-file`}
             >
               インポートCSVファイル
             </label>
             <div className="flex items-center">
               <input
                 type="file"
-                id="csvFile"
+                id={`${id}-file`}
+                data-testid="inputCsvFile"
                 className="hidden"
                 accept=".csv"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    handleFileChange(e.target.files[0]);
-                  }
-                }}
+                onChange={(e) =>
+                  e.target.files && onFileChange(e.target.files[0])
+                }
               />
               <label
-                htmlFor="csvFile"
+                htmlFor={`${id}-file`}
                 className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               >
                 ファイル選択
@@ -73,6 +82,7 @@ export function ImportDataPage() {
 
           <div className="flex">
             <button
+              data-testid="buttonImport"
               disabled={!enableImport || isLoading}
               type="submit"
               className="rounded bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-600 disabled:bg-gray-300"
