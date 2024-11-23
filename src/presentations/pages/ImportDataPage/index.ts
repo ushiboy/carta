@@ -1,1 +1,2 @@
-export { ImportDataPage } from "./ImportDataPage";
+import { ImportDataPageContainer } from "./ImportDataPageContainer";
+export const ImportDataPage = ImportDataPageContainer;
