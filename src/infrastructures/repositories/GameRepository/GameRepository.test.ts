@@ -9,37 +9,44 @@ describe("GameRepository", () => {
   beforeEach(async () => {
     db = new CartaDatabase();
     repository = new GameRepository(db);
-    const gameId1 = await db.games.add({
-      title: "test 1",
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-    });
+  });
 
-    const gameId2 = await db.games.add({
-      title: "test 2",
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-    });
-
-    await db.pairCards.bulkAdd([
-      {
-        gameId: gameId1,
-        yomi: "yomi1",
-        tori: "tori1",
-        createdAt: new Date(),
-        modifiedAt: new Date(),
-      },
-      {
-        gameId: gameId2,
-        yomi: "yomi2",
-        tori: "tori2",
-        createdAt: new Date(),
-        modifiedAt: new Date(),
-      },
-    ]);
+  afterEach(async () => {
+    await db.delete();
   });
 
   describe("getAllGames", () => {
+    beforeEach(async () => {
+      const gameId1 = await db.games.add({
+        title: "test 1",
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+      });
+
+      const gameId2 = await db.games.add({
+        title: "test 2",
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+      });
+
+      await db.pairCards.bulkAdd([
+        {
+          gameId: gameId1,
+          yomi: "yomi1",
+          tori: "tori1",
+          createdAt: new Date(),
+          modifiedAt: new Date(),
+        },
+        {
+          gameId: gameId2,
+          yomi: "yomi2",
+          tori: "tori2",
+          createdAt: new Date(),
+          modifiedAt: new Date(),
+        },
+      ]);
+    });
+
     it("すべてのゲームを返す", async () => {
       expect(await repository.getAllGames()).toEqual([
         {
@@ -56,6 +63,24 @@ describe("GameRepository", () => {
 
   describe("getGameDetail", () => {
     describe("対象が存在する場合", () => {
+      beforeEach(async () => {
+        const gameId1 = await db.games.add({
+          title: "test 1",
+          createdAt: new Date(),
+          modifiedAt: new Date(),
+        });
+
+        await db.pairCards.bulkAdd([
+          {
+            gameId: gameId1,
+            yomi: "yomi1",
+            tori: "tori1",
+            createdAt: new Date(),
+            modifiedAt: new Date(),
+          },
+        ]);
+      });
+
       it("指定IDのゲームを返す", async () => {
         expect(await repository.getGameDetail(1)).toEqual({
           id: 1,
