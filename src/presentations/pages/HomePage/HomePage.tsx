@@ -14,7 +14,7 @@ export function HomePage({ games, isLoading }: Props) {
       <Loading show={isLoading} />
       <ul>
         {games.map((g) => (
-          <li key={g.id}>
+          <li data-testid="gameListItem" key={g.id}>
             <Link to={`/games/${g.id}`}>{g.title}</Link>
           </li>
         ))}

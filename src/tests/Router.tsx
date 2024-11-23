@@ -1,7 +1,7 @@
 import { MemoryRouter } from "react-router";
 
 type Props = {
-  initPath: string;
+  initPath?: string;
   children: React.ReactNode;
 };
 
@@ -12,7 +12,7 @@ export function Router({ initPath, children }: Props) {
         v7_relativeSplatPath: true,
         v7_startTransition: true,
       }}
-      initialEntries={[initPath]}
+      initialEntries={[initPath || "/"]}
     >
       {children}
     </MemoryRouter>
