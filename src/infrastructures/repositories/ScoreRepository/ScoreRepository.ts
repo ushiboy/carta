@@ -29,12 +29,13 @@ export class ScoreRepository implements ScoreRepositoryInterface {
       throw new Error("Score not found.");
     }
 
+    const { results, ...other } = score;
     return {
       score: {
-        ...score,
+        ...other,
         id: score.id!,
       },
-      playResults: score.results || [],
+      playResults: results || [],
     };
   }
 
@@ -45,10 +46,13 @@ export class ScoreRepository implements ScoreRepositoryInterface {
       .limit(limit)
       .toArray();
 
-    return raws.map((r) => ({
-      ...r,
-      id: r.id!,
-    }));
+    return raws.map((r) => {
+      const { results: _, ...other } = r;
+      return {
+        ...other,
+        id: r.id!,
+      };
+    });
   }
 
   async saveScore(
@@ -66,13 +70,9 @@ export class ScoreRepository implements ScoreRepositoryInterface {
     });
     const saved = await this.db.scoreLogs.get(id);
 
-    if (!saved) {
-      throw new Error("Score not found.");
-    }
-
     return {
-      ...saved,
-      id: saved.id!,
+      ...saved!,
+      id: saved!.id!,
     };
   }
 }
