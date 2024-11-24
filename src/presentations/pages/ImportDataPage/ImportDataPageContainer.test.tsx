@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { GameDetail, GameDraft } from "@/domains/models/carta";
@@ -54,7 +54,7 @@ describe("ImportDataPageContainer", () => {
       new File(["yomi1,tori1"], "test.csv"),
     );
 
-    expect(r.getByTestId("buttonImport")).toBeEnabled();
+    await waitFor(() => expect(r.getByTestId("buttonImport")).toBeEnabled());
 
     await userEvent.click(r.getByTestId("buttonImport"));
 

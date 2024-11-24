@@ -83,3 +83,23 @@ export type PlayResult = {
   tori: string;
   corrected: boolean;
 };
+
+/**
+ * ゲームの状態
+ */
+export type GameState = {
+  /** ペアとなる札のリスト */
+  pairCards: PairCard[];
+  /** 読み札のリスト */
+  yomiFudas: YomiFudaInfo[];
+  /** 取札のリスト */
+  toriFudas: ToriFudaInfo[];
+  /** 現在の読み札の内容 */
+  yomiFudaMessage: string;
+  /** ゲーム終了判定 */
+  isGameOver: boolean;
+  /** スコア */
+  scoreInfo: ScoreInfo;
+  /** プレイ結果 */
+  playResults: PlayResult[];
+};

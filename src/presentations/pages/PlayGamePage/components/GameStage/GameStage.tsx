@@ -1,4 +1,3 @@
-import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import { GameDetail } from "@/domains/models/carta";
 
 import { GameOverDialog } from "./components/GameOverDialog";
@@ -7,10 +6,9 @@ import { useGameStage } from "./hooks";
 
 type Props = {
   game: GameDetail;
-  engine: CartaEngine;
 };
 
-export function GameStage({ game, engine }: Props) {
+export function GameStage({ game }: Props) {
   const {
     isGameOver,
     toriFudas,
@@ -19,7 +17,7 @@ export function GameStage({ game, engine }: Props) {
     handleFudaClick,
     handleFinish,
     handleRetry,
-  } = useGameStage(engine, game);
+  } = useGameStage(game);
   return (
     <div data-testid="gameStage">
       <h1 data-testid="title">{game.title}</h1>

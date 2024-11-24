@@ -1,4 +1,3 @@
-import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import { GameDetail } from "@/domains/models/carta";
 import { Loading } from "@/presentations/shared/Loading";
 
@@ -13,9 +12,7 @@ export function PlayGamePage({ game, isLoading }: Props) {
   return (
     <div data-testid="playGamePage">
       <Loading show={isLoading} />
-      {game && (
-        <GameStage game={game} engine={new CartaEngine(game.pairCards)} />
-      )}
+      {game && <GameStage game={game} />}
     </div>
   );
 }
