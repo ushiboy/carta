@@ -28,15 +28,25 @@ export const takeCard: TakeCard = (
         ...t,
         status: result ? ToriFudaStatus.Corrected : ToriFudaStatus.Incorrected,
       };
+    } else if (t.id === toriFuda.id) {
+      return {
+        ...t,
+        status: ToriFudaStatus.Incorrected,
+      };
     }
     return t;
   });
-  const nextYomiFudas = yomiFudas.slice(1);
+
+  const nextYomiFudas = result
+    ? yomiFudas.slice(1)
+    : yomiFudas.slice(1).filter((f) => f.id !== toriFuda.id);
+
   const isGameOver = nextYomiFudas.length === 0;
 
   const scoreInfo = isGameOver
     ? calculateScore(nextToriFudas)
     : state.scoreInfo;
+
   const playResults = isGameOver
     ? convertPlayResults(pairCards, nextToriFudas)
     : [];
