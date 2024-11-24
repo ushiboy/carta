@@ -6,7 +6,7 @@ export function useGetScoreDetail(logId: number) {
   const { scoreRepository } = useRepository();
 
   const { data, isLoading } = useSWR(
-    scoreRepository.getScoreDetail.name,
+    [scoreRepository.getScoreDetail.name, logId],
     () => {
       return scoreRepository.getScoreDetail(logId);
     },
