@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-
 import { Game } from "@/domains/models/carta";
 import { Loading } from "@/presentations/shared/Loading";
+
+import { GameList } from "./components/GameList";
 
 type Props = {
   games: Game[];
@@ -12,13 +12,7 @@ export function HomePage({ games, isLoading }: Props) {
   return (
     <div data-testid="homePage">
       <Loading show={isLoading} />
-      <ul>
-        {games.map((g) => (
-          <li data-testid="gameListItem" key={g.id}>
-            <Link to={`/games/${g.id}`}>{g.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <GameList games={games} />
     </div>
   );
 }
