@@ -16,9 +16,9 @@ export interface TakeCard {
 }
 
 export interface CalculateScore {
-  (state: GameState): ScoreInfo;
+  (toriFudas: ToriFudaInfo[]): ScoreInfo;
 }
 
 export interface ConvertPlayResults {
-  (state: GameState): PlayResult[];
+  (pairCards: PairCard[], toriFudas: ToriFudaInfo[]): PlayResult[];
 }

@@ -98,4 +98,8 @@ export type GameState = {
   yomiFudaMessage: string;
   /** ゲーム終了判定 */
   isGameOver: boolean;
+  /** スコア */
+  scoreInfo: ScoreInfo;
+  /** プレイ結果 */
+  playResults: PlayResult[];
 };

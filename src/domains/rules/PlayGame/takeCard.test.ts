@@ -17,6 +17,13 @@ describe("takeCard", () => {
     toriFudas: [toriFuda1, toriFuda2],
     yomiFudaMessage: yomiFuda1.text,
     isGameOver: false,
+    scoreInfo: {
+      corrected: 0,
+      incorrected: 0,
+      total: 2,
+      rate: 0,
+    },
+    playResults: [],
   };
 
   describe("正答の場合", () => {
@@ -51,6 +58,16 @@ describe("takeCard", () => {
       const r = takeCard(state, toriFuda1);
       expect(r.isGameOver).toBe(false);
     });
+
+    it("スコアは計算しない", () => {
+      const r = takeCard(state, toriFuda1);
+      expect(r.scoreInfo).toEqual(state.scoreInfo);
+    });
+
+    it("プレイ結果は取得しない", () => {
+      const r = takeCard(state, toriFuda1);
+      expect(r.playResults).toEqual([]);
+    });
   });
 
   describe("読み札が残っていない場合", () => {
@@ -62,6 +79,30 @@ describe("takeCard", () => {
     it("ゲームは終了とする", () => {
       const r = takeCard(takeCard(state, toriFuda1), toriFuda2);
       expect(r.isGameOver).toBe(true);
+    });
+
+    it("スコアを計算する", () => {
+      const r = takeCard(takeCard(state, toriFuda1), toriFuda2);
+      expect(r.scoreInfo).toEqual({
+        corrected: 2,
+        incorrected: 0,
+        total: 2,
+        rate: 100,
+      });
+    });
+
+    it("プレイ結果を取得する", () => {
+      const r = takeCard(takeCard(state, toriFuda1), toriFuda2);
+      expect(r.playResults).toEqual([
+        {
+          ...pairCard1,
+          corrected: true,
+        },
+        {
+          ...pairCard2,
+          corrected: true,
+        },
+      ]);
     });
   });
 });

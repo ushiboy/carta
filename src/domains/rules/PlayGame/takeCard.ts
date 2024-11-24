@@ -4,6 +4,8 @@ import {
   ToriFudaStatus,
 } from "@/domains/models/carta";
 
+import { calculateScore } from "./calculateScore";
+import { convertPlayResults } from "./convertPlayResults";
 import { TakeCard } from "./interface";
 
 /**
@@ -14,7 +16,7 @@ import { TakeCard } from "./interface";
  * @returns 次のゲームの状態
  */
 export const takeCard: TakeCard = (
-  { yomiFudas, toriFudas, pairCards }: GameState,
+  { yomiFudas, toriFudas, pairCards, ...state }: GameState,
   toriFuda: ToriFudaInfo,
 ): GameState => {
   const correctId = yomiFudas[0].id;
@@ -30,12 +32,22 @@ export const takeCard: TakeCard = (
     return t;
   });
   const nextYomiFudas = yomiFudas.slice(1);
+  const isGameOver = nextYomiFudas.length === 0;
+
+  const scoreInfo = isGameOver
+    ? calculateScore(nextToriFudas)
+    : state.scoreInfo;
+  const playResults = isGameOver
+    ? convertPlayResults(pairCards, nextToriFudas)
+    : [];
 
   return {
-    pairCards: pairCards,
+    pairCards,
     yomiFudas: nextYomiFudas,
     toriFudas: nextToriFudas,
     yomiFudaMessage: nextYomiFudas[0]?.text || "",
-    isGameOver: nextYomiFudas.length === 0,
+    isGameOver,
+    scoreInfo,
+    playResults,
   };
 };

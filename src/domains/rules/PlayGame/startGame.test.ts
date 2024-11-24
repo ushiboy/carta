@@ -23,6 +23,13 @@ describe("startGame", () => {
     expect(r.toriFudas).toHaveLength(2);
     expect(r.yomiFudaMessage).toBe(r.yomiFudas[0].text);
     expect(r.isGameOver).toBe(false);
+    expect(r.scoreInfo).toEqual({
+      corrected: 0,
+      incorrected: 0,
+      total: 2,
+      rate: 0,
+    });
+    expect(r.playResults).toEqual([]);
   });
 
   it("シャッフルルールに従って読み札と取札をシャッフルする", () => {

@@ -30,6 +30,13 @@ export const startGame: StartGame = (
     toriFudas,
     yomiFudaMessage: yomiFudas[0].text,
     isGameOver: yomiFudas.length === 0,
+    scoreInfo: {
+      corrected: 0,
+      incorrected: 0,
+      total: yomiFudas.length,
+      rate: 0,
+    },
+    playResults: [],
   };
 };
 

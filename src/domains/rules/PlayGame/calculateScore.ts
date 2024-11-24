@@ -1,15 +1,13 @@
-import { GameState, ScoreInfo, ToriFudaStatus } from "@/domains/models/carta";
+import { ToriFudaStatus } from "@/domains/models/carta";
 
 import { CalculateScore } from "./interface";
 
 /**
  * ゲームの状態からスコアを取得する
- * @param state ゲームの状態
+ * @param toriFudas 取札の状態
  * @returns スコア
  */
-export const calculateScore: CalculateScore = ({
-  toriFudas,
-}: GameState): ScoreInfo => {
+export const calculateScore: CalculateScore = (toriFudas) => {
   const corrected = toriFudas.reduce((result, fuda) => {
     if (fuda.status === ToriFudaStatus.Corrected) {
       result += 1;
