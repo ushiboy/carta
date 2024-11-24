@@ -1,7 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import {
   Game,
   GameDetail,
@@ -31,8 +30,6 @@ describe("GameStage", () => {
     pairCards: [pairCard1],
   };
 
-  const engine = new CartaEngine([pairCard1]);
-
   class Mock extends MockScoreRepository {
     async saveScore(
       game: Game,
@@ -51,7 +48,7 @@ describe("GameStage", () => {
   }
 
   const run = () =>
-    render(<GameStage game={detail} engine={engine} />, {
+    render(<GameStage game={detail} />, {
       wrapper: ({ children }) => (
         <RepositoryContextHelper scoreRepository={new Mock()}>
           <AdapterContextProvider

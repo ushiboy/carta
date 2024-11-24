@@ -1,22 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { CartaEngine } from "@/domains/engines/CartaEngine/CartaEngine";
 import {
   GameDetail,
+  GameState,
   ScoreInfo,
   ToriFudaInfo,
-  ToriFudaStatus,
 } from "@/domains/models/carta";
+import {
+  calculateScore,
+  convertPlayResults,
+  startGame,
+  takeCard,
+} from "@/domains/rules/PlayGame";
 import { useAdapter } from "@/presentations/contexts/AdapterContext";
 import { useSaveScore } from "@/presentations/hooks/useSaveScore";
 
-export function useGameStage(engine: CartaEngine, game: GameDetail) {
+export function useGameStage(game: GameDetail) {
   const navigate = useNavigate();
   const { textToSpeechAdapter } = useAdapter();
-  const [toriFudas, setToriFudas] = useState<ToriFudaInfo[]>([]);
-  const [yomiFuda, setYomiFuda] = useState("");
-  const [isGameOver, setGameOver] = useState(false);
+  const [state, setState] = useState<GameState>(startGame(game.pairCards));
+  const { yomiFudaMessage, toriFudas, isGameOver } = state;
+
   const [scoreInfo, setScoreInfo] = useState<ScoreInfo>({
     corrected: 0,
     incorrected: 0,
@@ -26,55 +31,39 @@ export function useGameStage(engine: CartaEngine, game: GameDetail) {
   const { doSave } = useSaveScore();
 
   useEffect(() => {
-    engine.startGame();
-    engine.onNextFuda(({ toriFudas, yomiFuda, isGameOver }) => {
-      textToSpeechAdapter.speech(yomiFuda);
+    textToSpeechAdapter.speech(yomiFudaMessage);
+    return () => {
+      textToSpeechAdapter.cancel();
+    };
+  }, [textToSpeechAdapter, yomiFudaMessage]);
 
-      setToriFudas(toriFudas);
-      setYomiFuda(yomiFuda);
-      setGameOver(isGameOver);
-      if (isGameOver) {
-        const score = engine.getScore();
+  const handleFudaClick = useCallback(
+    (fuda: ToriFudaInfo) => {
+      const nextState = takeCard(state, fuda);
+      if (nextState.isGameOver) {
+        const score = calculateScore(nextState);
         setScoreInfo(score);
-        /**
-         * FIXME
-         */
         doSave({
           game,
           score,
-          playResults: game.pairCards.map(({ id, yomi, tori }) => ({
-            id,
-            yomi,
-            tori,
-            corrected:
-              toriFudas.find((t) => t.id === id)?.status ===
-              ToriFudaStatus.Corrected,
-          })),
+          playResults: convertPlayResults(nextState),
         });
       }
-    });
-    return () => {
-      engine.dispose();
-      textToSpeechAdapter.cancel();
-    };
-  }, [engine, game, textToSpeechAdapter, doSave]);
-
-  const handleFudaClick = useCallback(
-    (fuda: ToriFudaInfo) => engine.tori(fuda),
-    [engine],
+      setState(nextState);
+    },
+    [state, game, doSave],
   );
 
-  const handleRetry = useCallback(() => {
-    engine.startGame();
-  }, [engine]);
+  const handleRetry = useCallback(
+    () => setState(startGame(game.pairCards)),
+    [game],
+  );
 
-  const handleFinish = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
+  const handleFinish = useCallback(() => navigate("/"), [navigate]);
 
   return {
     isGameOver,
-    yomiFuda,
+    yomiFuda: yomiFudaMessage,
     toriFudas,
     scoreInfo,
     handleFudaClick,
