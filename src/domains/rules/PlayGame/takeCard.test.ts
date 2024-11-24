@@ -38,13 +38,22 @@ describe("takeCard", () => {
   });
 
   describe("誤答の場合", () => {
-    it("取札のステータスを不正解にする", () => {
+    it("指定した取札と本来の正解取札のステータスを不正解にする", () => {
       const r = takeCard(state, toriFuda2);
       expect(r.toriFudas[0]).toEqual({
         ...toriFuda1,
         status: ToriFudaStatus.Incorrected,
       });
-      expect(r.toriFudas[1]).toEqual(toriFuda2);
+      expect(r.toriFudas[1]).toEqual({
+        ...toriFuda2,
+        status: ToriFudaStatus.Incorrected,
+      });
+    });
+
+    it("本来の正解取札の読み札を除外する", () => {
+      const r = takeCard(state, toriFuda2);
+      expect(r.yomiFudas).toHaveLength(0);
+      expect(r.yomiFudaMessage).toBe("");
     });
   });
 
