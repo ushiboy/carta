@@ -19,8 +19,10 @@ export function GameStage({ game }: Props) {
     handleRetry,
   } = useGameStage(game);
   return (
-    <div data-testid="gameStage">
-      <h1 data-testid="title">{game.title}</h1>
+    <div data-testid="gameStage" className="mb:p-4 p-2">
+      <h1 data-testid="title" className="mb-3 text-xl">
+        {game.title}
+      </h1>
       <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-4">
         <div className="flex-grow text-gray-700" data-testid="yomiFuda">
           {yomiFuda}

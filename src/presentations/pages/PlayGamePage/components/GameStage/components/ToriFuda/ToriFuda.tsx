@@ -9,29 +9,22 @@ type Props = {
 };
 
 const card = tv({
-  base: "rounded-lg shadow-lg p-6 flex items-center justify-center border transition duration-200",
+  base: "h-16 w-full border-green-900 border-4 md:border-8 rounded-sm shadow-lg flex items-center justify-center  transition duration-200 md:h-32 md:w-64",
   variants: {
-    size: {
-      sm: "w-32 h-20",
-      md: "w-64 h-32",
-      lg: "w-96 h-48",
-    },
     hoverable: {
-      true: "hover:bg-gray-100 cursor-pointer",
+      true: "hover:scale-105 hover:shadow-xl",
       false: "",
     },
     status: {
-      [ToriFudaStatus.Default]: "border-gray-400",
+      [ToriFudaStatus.Default]: "",
       [ToriFudaStatus.Corrected]:
-        "bg-green-300 border-green-500 cursor-not-allowed",
+        "bg-emerald-200 border-emerald-500 cursor-not-allowed",
       [ToriFudaStatus.Incorrected]:
-        "bg-red-300 border-red-500 cursor-not-allowed",
+        "bg-red-200 border-red-600 cursor-not-allowed",
     },
   },
   defaultVariants: {
-    size: "md",
     hoverable: true,
-    selected: false,
   },
 });
 
