@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import image from "@/assets/images/japanese-paper.jpg";
+import image from "@/assets/images/japanese-paper.webp";
 import { Game } from "@/domains/models/carta";
 
 type Props = {
