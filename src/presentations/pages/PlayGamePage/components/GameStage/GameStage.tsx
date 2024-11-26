@@ -1,6 +1,7 @@
 import { GameDetail } from "@/domains/models/carta";
 
 import { GameOverDialog } from "./components/GameOverDialog";
+import { GameStartDialog } from "./components/GameStartDialog";
 import { ToriFuda } from "./components/ToriFuda";
 import { useGameStage } from "./hooks";
 
@@ -14,6 +15,8 @@ export function GameStage({ game }: Props) {
     toriFudas,
     yomiFuda,
     scoreInfo,
+    openStartDialog,
+    handleStart,
     handleFudaClick,
     handleFinish,
     handleRetry,
@@ -33,6 +36,11 @@ export function GameStage({ game }: Props) {
           <ToriFuda key={fuda.id} info={fuda} onClick={handleFudaClick} />
         ))}
       </div>
+      <GameStartDialog
+        open={openStartDialog}
+        game={game}
+        onStart={handleStart}
+      />
       <GameOverDialog
         open={isGameOver}
         scoreInfo={scoreInfo}

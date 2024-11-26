@@ -11,15 +11,15 @@ export function useGameStage(game: GameDetail) {
   const { textToSpeechAdapter } = useAdapter();
   const [state, setState] = useState<GameState>(startGame(game.pairCards));
   const { yomiFudaMessage, toriFudas, isGameOver, scoreInfo } = state;
+  const [openStartDialog, setOpenStartDialog] = useState(true);
 
   const { doSave } = useSaveScore();
 
   useEffect(() => {
-    textToSpeechAdapter.speech(yomiFudaMessage);
     return () => {
       textToSpeechAdapter.cancel();
     };
-  }, [textToSpeechAdapter, yomiFudaMessage]);
+  }, [textToSpeechAdapter]);
 
   const handleFudaClick = useCallback(
     (fuda: ToriFudaInfo) => {
@@ -30,24 +30,34 @@ export function useGameStage(game: GameDetail) {
           score: nextState.scoreInfo,
           playResults: nextState.playResults,
         });
+      } else {
+        textToSpeechAdapter.speech(nextState.yomiFudaMessage);
       }
       setState(nextState);
     },
-    [state, game, doSave],
+    [state, textToSpeechAdapter, game, doSave],
   );
 
-  const handleRetry = useCallback(
-    () => setState(startGame(game.pairCards)),
-    [game],
-  );
+  const handleRetry = useCallback(() => {
+    const newState = startGame(game.pairCards);
+    textToSpeechAdapter.speech(newState.yomiFudaMessage);
+    setState(newState);
+  }, [game, textToSpeechAdapter]);
 
   const handleFinish = useCallback(() => navigate("/"), [navigate]);
+
+  const handleStart = useCallback(() => {
+    setOpenStartDialog(false);
+    textToSpeechAdapter.speech(yomiFudaMessage);
+  }, [textToSpeechAdapter, yomiFudaMessage]);
 
   return {
     isGameOver,
     yomiFuda: yomiFudaMessage,
     toriFudas,
     scoreInfo,
+    openStartDialog,
+    handleStart,
     handleFudaClick,
     handleRetry,
     handleFinish,
