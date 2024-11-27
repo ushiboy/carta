@@ -11,6 +11,11 @@ export class MockScoreRepository implements ScoreRepositoryInterface {
   ): Promise<{ score: ScoreLog; playResults: PlayResult[] }> {
     throw new Error("Method not implemented.");
   }
+  getScoreDetails(
+    _gameId: number,
+  ): Promise<{ score: ScoreLog; playResults: PlayResult[] }[]> {
+    throw new Error("Method not implemented.");
+  }
   saveScore(
     _game: Game,
     _score: ScoreInfo,
