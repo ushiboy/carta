@@ -1,0 +1,1 @@
+export { useGetScoreDetails } from "./useGetScoreDetails";

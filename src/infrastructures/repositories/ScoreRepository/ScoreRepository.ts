@@ -9,6 +9,13 @@ export interface ScoreRepositoryInterface {
     playResults: PlayResult[];
   }>;
 
+  getScoreDetails(gameId: number): Promise<
+    {
+      score: ScoreLog;
+      playResults: PlayResult[];
+    }[]
+  >;
+
   saveScore(
     game: Game,
     score: ScoreInfo,
@@ -37,6 +44,28 @@ export class ScoreRepository implements ScoreRepositoryInterface {
       },
       playResults: results || [],
     };
+  }
+
+  async getScoreDetails(gameId: number): Promise<
+    {
+      score: ScoreLog;
+      playResults: PlayResult[];
+    }[]
+  > {
+    const datas = await this.db.scoreLogs
+      .where("gameId")
+      .equals(gameId)
+      .toArray();
+
+    return datas.map(({ results, ...other }) => {
+      return {
+        score: {
+          ...other,
+          id: other.id!,
+        },
+        playResults: results || [],
+      };
+    });
   }
 
   async getLatestScores(limit: number): Promise<ScoreLog[]> {
