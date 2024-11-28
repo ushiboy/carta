@@ -10,17 +10,19 @@ export function useAnalysisGamePage() {
   const scoreDetails = useGetScoreDetails(Number(gameId));
 
   const words = useMemo(() => {
-    const correctedWords = new Map<string, number>();
+    const tmp = new Map<string, number>();
     scoreDetails.details.forEach(({ playResults }) => {
       playResults.forEach(({ tori, corrected }) => {
+        const v = tmp.get(tori) || 0;
         if (corrected) {
-          const v = correctedWords.get(tori) || 0;
-          correctedWords.set(tori, v + 1);
+          tmp.set(tori, v + 10);
+        } else {
+          tmp.set(tori, v + 2);
         }
       });
     });
 
-    return Array.from(correctedWords.entries()).map(([text, value]) => ({
+    return Array.from(tmp.entries()).map(([text, value]) => ({
       text,
       value,
     }));
