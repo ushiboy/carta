@@ -53,7 +53,11 @@ export function useAnalysisGamePage() {
     const incorrected: number[] = [];
 
     const tmp = new Map<string, number>();
+    let total = 0;
     scoreDetails.details.forEach(({ playResults }) => {
+      if (playResults.length > 0) {
+        total += 1;
+      }
       playResults.forEach(({ tori, corrected }) => {
         const v = tmp.get(tori) || 0;
         if (corrected) {
@@ -64,7 +68,6 @@ export function useAnalysisGamePage() {
       });
     });
 
-    const total = scoreDetails.details.length;
     Array.from(tmp.entries()).forEach(([text, value]) => {
       labels.push(text);
       const rate = Math.floor((value / total) * 100);
@@ -78,8 +81,6 @@ export function useAnalysisGamePage() {
       incorrected,
     };
   }, [scoreDetails.details]);
-
-  console.log({ wordsChart });
 
   return {
     game: gameDetail.game,
