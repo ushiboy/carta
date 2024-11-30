@@ -60,5 +60,9 @@ export function WeakPointChart({ labels, corrected, incorrected }: Props) {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div data-testid="weakPointChart">
+      <Bar data={data} options={options} />
+    </div>
+  );
 }
