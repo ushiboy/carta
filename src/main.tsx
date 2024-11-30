@@ -1,18 +1,25 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createTheme, ThemeProvider } from "smarthr-ui";
 
 import "./index.css";
+import "smarthr-ui/smarthr-ui.css";
+
 import { App } from "@/presentations/App";
 
 import { CartaDatabase } from "./infrastructures/drivers/dexieDriver";
 
 const db = new CartaDatabase();
 
+const theme = createTheme();
+
 (async () => {
   await setupDemoData(db);
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <App db={db} />
+      <ThemeProvider theme={theme}>
+        <App db={db} />
+      </ThemeProvider>
     </StrictMode>,
   );
 })();
