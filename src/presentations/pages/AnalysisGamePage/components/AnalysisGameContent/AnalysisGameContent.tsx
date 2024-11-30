@@ -9,11 +9,13 @@ type Props = {
 
 export function AnalysisGameContent({ words }: Props) {
   return (
-    <WordCloud
-      data={words}
-      height={300}
-      fontWeight="bold"
-      fontSize={(word) => Math.log2(word.value) * 5}
-    />
+    <div data-testid="analysisGameContent">
+      <WordCloud
+        data={words}
+        height={300}
+        fontWeight="bold"
+        fontSize={(word) => Math.log2(word.value) * 5}
+      />
+    </div>
   );
 }

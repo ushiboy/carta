@@ -1,0 +1,1 @@
+export { ResultListRow } from "./ResultListRow";

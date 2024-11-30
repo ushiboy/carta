@@ -60,5 +60,9 @@ export function DailyResultsChart({ labels, corrected, incorrected }: Props) {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div data-testid="dailyResultsChart">
+      <Bar data={data} options={options} />
+    </div>
+  );
 }

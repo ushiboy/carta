@@ -3,6 +3,7 @@ import { render, waitFor } from "@testing-library/react";
 import { PlayResult, ScoreLog } from "@/domains/models/carta";
 import { MockScoreRepository } from "@/infrastructures/repositories/ScoreRepository/MockScoreRepository";
 import { ScoreRepositoryInterface } from "@/infrastructures/repositories/ScoreRepository/ScoreRepository";
+import { formatDateTime } from "@/lib/formatDateTime";
 import { RepositoryContextHelper, Router } from "@/tests";
 
 import { ScoreAnalysisPageContainer } from "./ScoreAnalysisPageContainer";
@@ -17,18 +18,11 @@ describe("ScoreAnalysisPageContainer", () => {
     createdAt: new Date(),
   };
 
-  const result1: PlayResult = {
+  const result: PlayResult = {
     id: 1,
     yomi: "yomi1",
     tori: "tori1",
     corrected: true,
-  };
-
-  const result2: PlayResult = {
-    id: 2,
-    yomi: "yomi2",
-    tori: "tori2",
-    corrected: false,
   };
 
   class Mock extends MockScoreRepository {
@@ -37,7 +31,7 @@ describe("ScoreAnalysisPageContainer", () => {
     ): Promise<{ score: ScoreLog; playResults: PlayResult[] }> {
       return {
         score: base,
-        playResults: [result1, result2],
+        playResults: [result],
       };
     }
   }
@@ -53,10 +47,19 @@ describe("ScoreAnalysisPageContainer", () => {
       },
     });
 
+  it('titleとcreatedAtを"title - yyyy/MM/dd"で表示する', async () => {
+    const r = run(new Mock());
+    await waitFor(() =>
+      expect(r.getByTestId("pageTitle")).toHaveTextContent(
+        `${base.title} - ${formatDateTime(base.createdAt)}`,
+      ),
+    );
+  });
+
   it("プレイ結果を一覧で表示する", async () => {
     const r = run(new Mock());
     await waitFor(() =>
-      expect(r.getAllByTestId("playResultListRow")).toHaveLength(2),
+      expect(r.getAllByTestId("resultListRow")).toHaveLength(1),
     );
   });
 });
