@@ -1,5 +1,14 @@
+import { Link } from "react-router-dom";
+import {
+  Base,
+  Loader,
+  PageHeading,
+  Stack,
+  UpwardLink,
+  useDevice,
+} from "smarthr-ui";
+
 import { GameDetail } from "@/domains/models/carta";
-import { Loading } from "@/presentations/shared/Loading";
 
 import { AnalysisGameContent } from "./components/AnalysisGameContent";
 import { DailyResultsChart } from "./components/DailyResultsChart";
@@ -31,16 +40,25 @@ export function AnalysisGamePage({
   wordsChart,
   isLoading,
 }: Props) {
+  const { isNarrowView } = useDevice();
   return (
-    <div data-testid="analysisGamePage">
-      <Loading show={isLoading} />
+    <Stack data-testid="analysisGamePage">
+      <UpwardLink to="/analysis" elementAs={Link} indent={!isNarrowView}>
+        一覧に戻る
+      </UpwardLink>
+      {isLoading && <Loader alt="読み込み中" />}
       {game && (
-        <div>
-          <DailyResultsChart {...chart} />
-          <AnalysisGameContent words={words} />
-          <WeakPointChart {...wordsChart} />
-        </div>
+        <>
+          <PageHeading data-testid="pageTitle">{game.title}</PageHeading>
+          <Base padding={1}>
+            <Stack gap={1.5}>
+              <DailyResultsChart {...chart} />
+              <AnalysisGameContent words={words} />
+              <WeakPointChart {...wordsChart} />
+            </Stack>
+          </Base>
+        </>
       )}
-    </div>
+    </Stack>
   );
 }
