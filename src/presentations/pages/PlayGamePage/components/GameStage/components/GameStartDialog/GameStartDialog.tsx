@@ -1,9 +1,4 @@
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
+import { Button, Cluster, Dialog, Heading, Stack, Text } from "smarthr-ui";
 
 import { GameDetail } from "@/domains/models/carta";
 
@@ -17,50 +12,24 @@ export function GameStartDialog({ open, game, onStart }: Props) {
   return (
     <Dialog
       data-testid="gameStartDialog"
-      open={open}
-      className="relative z-10"
-      onClose={() => {
-        // ignore
-      }}
+      isOpen={open}
+      className="w-60 md:w-96"
     >
-      <DialogBackdrop
-        transition
-        className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-      />
-
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <DialogPanel
-            transition
-            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-          >
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <DialogTitle
-                  as="h3"
-                  className="text-base font-semibold text-gray-900"
-                >
-                  ゲーム開始
-                </DialogTitle>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    {game.title}を開始します。
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-              <button
-                type="button"
-                onClick={onStart}
-                className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-              >
-                スタート
-              </button>
-            </div>
-          </DialogPanel>
+      <Stack gap={0} as="section" className="divide-y">
+        <Heading className="px-6 py-4">
+          <Text size="L" leading="TIGHT">
+            ゲーム開始
+          </Text>
+        </Heading>
+        <div className="p-6">
+          <Text>{game.title}を開始します。</Text>
         </div>
-      </div>
+        <Cluster justify="flex-end" className="px-6 py-4">
+          <Button variant="primary" onClick={onStart}>
+            スタート
+          </Button>
+        </Cluster>
+      </Stack>
     </Dialog>
   );
 }

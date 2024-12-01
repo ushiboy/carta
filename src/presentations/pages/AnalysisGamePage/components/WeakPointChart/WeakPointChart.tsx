@@ -8,6 +8,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { Heading, Stack } from "smarthr-ui";
 
 ChartJS.register(
   BarElement,
@@ -29,13 +30,13 @@ export function WeakPointChart({ labels, corrected, incorrected }: Props) {
     labels,
     datasets: [
       {
-        label: "正答率",
+        label: "正答",
         data: corrected,
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         stack: "Stack 0",
       },
       {
-        label: "誤答率",
+        label: "誤答",
         data: incorrected,
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         stack: "Stack 0",
@@ -61,8 +62,9 @@ export function WeakPointChart({ labels, corrected, incorrected }: Props) {
   };
 
   return (
-    <div data-testid="weakPointChart">
+    <Stack data-testid="weakPointChart">
+      <Heading>正答率</Heading>
       <Bar data={data} options={options} />
-    </div>
+    </Stack>
   );
 }

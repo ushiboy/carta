@@ -8,6 +8,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { Heading, Stack } from "smarthr-ui";
 
 ChartJS.register(
   BarElement,
@@ -61,8 +62,9 @@ export function DailyResultsChart({ labels, corrected, incorrected }: Props) {
   };
 
   return (
-    <div data-testid="dailyResultsChart">
+    <Stack data-testid="dailyResultsChart">
+      <Heading>日々の結果</Heading>
       <Bar data={data} options={options} />
-    </div>
+    </Stack>
   );
 }

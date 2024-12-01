@@ -39,25 +39,26 @@ describe("ImportDataPageContainer", () => {
     const r = run(new Mock());
 
     expect(
-      r.getByTestId("buttonImport"),
-      "必須項目が不足しているためボタンは無効",
-    ).toBeDisabled();
-
-    await userEvent.type(r.getByTestId("inputTitle"), "game");
-    expect(
-      r.getByTestId("buttonImport"),
-      "ファイルが不足しているためボタンは無効",
-    ).toBeDisabled();
+      r.queryByTestId("buttonImport"),
+      "ファイルが未選択のためボタンは非表示",
+    ).toBeNull();
 
     await userEvent.upload(
       r.getByTestId("inputCsvFile"),
       new File(["yomi1,tori1"], "test.csv"),
     );
 
+    await waitFor(() =>
+      expect(
+        r.getByTestId("inputTitle"),
+        "CSVのファイル名が設定される",
+      ).toHaveValue("test"),
+    );
+
     await waitFor(() => expect(r.getByTestId("buttonImport")).toBeEnabled());
 
     await userEvent.click(r.getByTestId("buttonImport"));
 
-    expect(alertMock).toHaveBeenCalledWith(`gameを登録しました。`);
+    expect(alertMock).toHaveBeenCalledWith(`testを登録しました。`);
   });
 });

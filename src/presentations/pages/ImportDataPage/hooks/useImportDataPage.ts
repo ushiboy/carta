@@ -12,18 +12,24 @@ export function useImportDataPage() {
   const [fileName, setFileName] = useState("");
   const [pairDrafts, setPairDrafts] = useState<PairDraft[]>([]);
 
-  const handleFileChange = useCallback(async (file?: File) => {
-    if (file) {
-      setFileName(file.name);
-      const data = await parseCsvFile(file);
-      setPairDrafts(
-        data.map(([yomi, tori]) => ({
-          yomi,
-          tori,
-        })),
-      );
-    }
-  }, []);
+  const handleFileChange = useCallback(
+    async (file?: File) => {
+      if (file) {
+        if (!title) {
+          setTitle(file.name.replace(/\.csv/, ""));
+        }
+        setFileName(file.name);
+        const data = await parseCsvFile(file);
+        setPairDrafts(
+          data.map(([yomi, tori]) => ({
+            yomi,
+            tori,
+          })),
+        );
+      }
+    },
+    [title],
+  );
 
   const enableImport = useMemo(
     () => title.length > 0 && pairDrafts.length > 0,
