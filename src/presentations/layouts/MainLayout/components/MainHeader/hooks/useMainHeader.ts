@@ -6,21 +6,21 @@ export function useMainHeader() {
 
   const navigation = useMemo(
     () => [
-      { name: "Home", path: "/", current: /^\/$/.test(pathname) },
+      { name: "ホーム", path: "/", current: /^\/$/.test(pathname) },
       {
-        name: "Score",
+        name: "スコア",
         path: "/scores",
         current: /^\/scores\/?/.test(pathname),
       },
       {
-        name: "Analysis",
+        name: "分析",
         path: "/analysis",
         current: /^\/analysis\/?/.test(pathname),
       },
     ],
     [pathname],
   );
-  const configNavigation = [{ name: "Manage Data", path: "/manage" }];
+  const configNavigation = [{ name: "CSVインポート", path: "/manage" }];
 
   return {
     navigation,

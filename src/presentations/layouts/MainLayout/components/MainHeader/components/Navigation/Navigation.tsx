@@ -5,8 +5,8 @@ const nav = tv({
   base: "rounded-md px-3 py-2 text-sm font-medium",
   variants: {
     current: {
-      true: "bg-blue-700 text-white",
-      false: "text-blue-100 hover:bg-blue-700 hover:text-white",
+      true: "bg-blue-800 text-white",
+      false: "text-white hover:bg-blue-700 hover:text-white",
     },
   },
   defaultVariants: {
