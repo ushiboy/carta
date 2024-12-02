@@ -1,4 +1,6 @@
+import { useErrorBoundary } from "react-error-boundary";
 import { HashRouter } from "react-router-dom";
+import { SWRConfig } from "swr";
 
 import { TextToSpeechAdapter } from "@/infrastructures/adapters/TextToSpeechAdapter";
 import { CartaDatabase } from "@/infrastructures/drivers/dexieDriver";
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export function App({ db }: Props) {
+  const { showBoundary } = useErrorBoundary();
   return (
     <AdapterContextProvider textToSpeechAdapter={new TextToSpeechAdapter()}>
       <RepositoryContextProvider
@@ -26,7 +29,15 @@ export function App({ db }: Props) {
             v7_startTransition: true,
           }}
         >
-          <AppRoutes />
+          <SWRConfig
+            value={{
+              onError(error, _key, _config) {
+                showBoundary(error);
+              },
+            }}
+          >
+            <AppRoutes />
+          </SWRConfig>
         </HashRouter>
       </RepositoryContextProvider>
     </AdapterContextProvider>
