@@ -1,11 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { ErrorBoundary } from "react-error-boundary";
 import { createTheme, DeviceProvider, ThemeProvider } from "smarthr-ui";
+
+import { App } from "@/presentations/App";
+import { CrashPage } from "@/presentations/pages/CrashPage";
 
 import "./index.css";
 import "smarthr-ui/smarthr-ui.css";
-
-import { App } from "@/presentations/App";
 
 import { CartaDatabase } from "./infrastructures/drivers/dexieDriver";
 
@@ -19,7 +21,9 @@ const theme = createTheme();
     <StrictMode>
       <ThemeProvider theme={theme}>
         <DeviceProvider>
-          <App db={db} />
+          <ErrorBoundary FallbackComponent={CrashPage}>
+            <App db={db} />
+          </ErrorBoundary>
         </DeviceProvider>
       </ThemeProvider>
     </StrictMode>,
