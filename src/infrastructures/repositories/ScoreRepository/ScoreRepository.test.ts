@@ -72,6 +72,54 @@ describe("ScoreRepository", () => {
     });
   });
 
+  describe("getScoreDetails", () => {
+    beforeEach(async () => {
+      await db.scoreLogs.add({
+        gameId: game1.id,
+        title: game1.title,
+        corrected: score1.corrected,
+        total: score1.total,
+        results: [playResult1],
+        createdAt: new Date("2024-01-01"),
+      });
+      await db.scoreLogs.add({
+        gameId: game1.id,
+        title: game1.title,
+        corrected: score1.corrected,
+        total: score1.total,
+        results: [playResult1],
+        createdAt: new Date("2024-01-02"),
+      });
+    });
+
+    it("スコアの詳細を返す", async () => {
+      expect(await repository.getScoreDetails(game1.id)).toEqual([
+        {
+          score: {
+            id: 1,
+            gameId: game1.id,
+            title: game1.title,
+            corrected: score1.corrected,
+            total: score1.total,
+            createdAt: new Date("2024-01-01"),
+          },
+          playResults: [playResult1],
+        },
+        {
+          score: {
+            id: 2,
+            gameId: game1.id,
+            title: game1.title,
+            corrected: score1.corrected,
+            total: score1.total,
+            createdAt: new Date("2024-01-02"),
+          },
+          playResults: [playResult1],
+        },
+      ]);
+    });
+  });
+
   describe("getLatestScores", () => {
     beforeEach(async () => {
       await db.scoreLogs.bulkAdd([

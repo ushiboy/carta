@@ -80,6 +80,11 @@ describe("GameStage", () => {
   it("ゲーム終了するとゲームオーバーダイアログが表示される", async () => {
     const r = run();
     await waitFor(() =>
+      expect(r.getByTestId("gameStartDialog")).toBeInTheDocument(),
+    );
+    await userEvent.click(r.getByText("スタート"));
+
+    await waitFor(() =>
       expect(r.getByTestId("toriFuda")).toHaveTextContent(pairCard1.tori),
     );
     await userEvent.click(r.getByText(pairCard1.tori));
