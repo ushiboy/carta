@@ -12,6 +12,7 @@ export function useGameStage(game: GameDetail) {
   const [state, setState] = useState<GameState>(startGame(game.pairCards));
   const { yomiFudaMessage, toriFudas, isGameOver, scoreInfo } = state;
   const [openStartDialog, setOpenStartDialog] = useState(true);
+  const [isMuted, setMuted] = useState(textToSpeechAdapter.isMuted());
 
   const { doSave } = useSaveScore();
 
@@ -51,8 +52,18 @@ export function useGameStage(game: GameDetail) {
     textToSpeechAdapter.speech(yomiFudaMessage);
   }, [textToSpeechAdapter, yomiFudaMessage]);
 
+  const handleClickVolume = useCallback(() => {
+    if (textToSpeechAdapter.isMuted()) {
+      textToSpeechAdapter.unmute();
+    } else {
+      textToSpeechAdapter.mute();
+    }
+    setMuted(textToSpeechAdapter.isMuted());
+  }, [textToSpeechAdapter]);
+
   return {
     isGameOver,
+    isMuted,
     yomiFuda: yomiFudaMessage,
     toriFudas,
     scoreInfo,
@@ -61,5 +72,6 @@ export function useGameStage(game: GameDetail) {
     handleFudaClick,
     handleRetry,
     handleFinish,
+    handleClickVolume,
   };
 }
