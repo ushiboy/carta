@@ -23,7 +23,7 @@ export function useAnalysisGamePage() {
       });
     });
 
-    return Array.from(tmp.entries()).map(([text, value]) => ({
+    return [...tmp].sort().map(([text, value]) => ({
       text,
       value,
     }));
@@ -68,7 +68,7 @@ export function useAnalysisGamePage() {
       });
     });
 
-    Array.from(tmp.entries()).forEach(([text, value]) => {
+    [...tmp].sort().forEach(([text, value]) => {
       labels.push(text);
       const rate = Math.floor((value / total) * 100);
       corrected.push(rate);
