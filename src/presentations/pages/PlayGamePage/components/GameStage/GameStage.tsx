@@ -8,8 +8,6 @@ import { GameStartDialog } from "./components/GameStartDialog";
 import { ToriFuda } from "./components/ToriFuda";
 import { useGameStage } from "./hooks";
 
-
-
 type Props = {
   game: GameDetail;
 };
@@ -33,7 +31,7 @@ export function GameStage({ game }: Props) {
       <h1 data-testid="title" className="mb-3 text-xl">
         {game.title}
       </h1>
-      <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-4">
+      <div className="mb:static mb:top-0 sticky top-2 mb-4 flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-4">
         <div className="flex-grow text-gray-700" data-testid="yomiFuda">
           {yomiFuda}
         </div>
