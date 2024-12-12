@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Td } from "smarthr-ui";
+import { Td, TextLink } from "smarthr-ui";
 
 import { ScoreLog } from "@/domains/models/carta";
 import { formatDateTime } from "@/lib/formatDateTime";
@@ -12,7 +12,9 @@ export function ScoreListRow({ score }: Props) {
   return (
     <tr data-testid="scoreListRow">
       <Td data-testid="title">
-        <Link to={`/scores/${score.id}`}>{score.title}</Link>
+        <TextLink to={`/scores/${score.id}`} elementAs={Link}>
+          {score.title}
+        </TextLink>
       </Td>
       <Td data-testid="score">
         {score.corrected} / {score.total}
