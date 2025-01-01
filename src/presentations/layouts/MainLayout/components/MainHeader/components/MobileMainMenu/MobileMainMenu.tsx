@@ -1,5 +1,5 @@
 import { DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { tv } from "tailwind-variants";
 
 const nav = tv({

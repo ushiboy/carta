@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { PageHeading, Stack, UpwardLink, useDevice } from "smarthr-ui";
 
 import { PlayResult, ScoreLog } from "@/domains/models/carta";

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import image from "@/assets/images/japanese-paper.webp";
 import { Game } from "@/domains/models/carta";

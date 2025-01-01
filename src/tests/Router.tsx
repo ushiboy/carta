@@ -7,14 +7,6 @@ type Props = {
 
 export function Router({ initPath, children }: Props) {
   return (
-    <MemoryRouter
-      future={{
-        v7_relativeSplatPath: true,
-        v7_startTransition: true,
-      }}
-      initialEntries={[initPath || "/"]}
-    >
-      {children}
-    </MemoryRouter>
+    <MemoryRouter initialEntries={[initPath || "/"]}>{children}</MemoryRouter>
   );
 }
