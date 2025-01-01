@@ -1,5 +1,5 @@
 import { useErrorBoundary } from "react-error-boundary";
-import { HashRouter } from "react-router-dom";
+import { HashRouter } from "react-router";
 import { SWRConfig } from "swr";
 
 import { TextToSpeechAdapter } from "@/infrastructures/adapters/TextToSpeechAdapter";
@@ -23,12 +23,7 @@ export function App({ db }: Props) {
         gameRepository={new GameRepository(db)}
         scoreRepository={new ScoreRepository(db)}
       >
-        <HashRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <HashRouter>
           <SWRConfig
             value={{
               onError(error, _key, _config) {

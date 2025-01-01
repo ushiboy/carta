@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Td, TextLink } from "smarthr-ui";
 
 import { ScoreLog } from "@/domains/models/carta";
